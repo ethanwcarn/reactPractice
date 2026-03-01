@@ -1,12 +1,6 @@
 import './App.css'
 
-function Welcome() { 
-  return <h1>Welcome to the underrated bands list!</h1>
-}
-
-function BandList() { 
-  // define an array of band objects so we can render multiple bands easily
-  const bands = [
+const bands = [
     {
       name: "R.E.M",
       members: ["Michael Stipe", "Peter Buck", "Mike Mills", "Bill Berry"],
@@ -41,27 +35,58 @@ function BandList() {
     },
   ];
 
+function Welcome() { 
+  return <h1>Welcome to the underrated bands list!</h1>
+}
+
+interface BandProps {
+  name: string;
+  genre: string;
+  origin: string;
+  formed: number;
+  members: string[];
+  albums: string[];
+}
+
+function Band({ name, genre, origin, formed, members, albums }: BandProps) {
+  // compute a simple cover URL based on the band name or first album
+  const coverUrl =
+    name === "R.E.M"
+      ? "https://upload.wikimedia.org/wikipedia/en/2/2c/R.E.M._Murmur.jpg"
+      : name === "The Smiths"
+      ? "https://upload.wikimedia.org/wikipedia/en/7/70/The_Smiths_The_Smiths.jpg"
+      : "";
+
+  return (
+    <div className="band-detail">
+      {coverUrl && <img src={coverUrl} alt={`${name} album cover`} />}
+      <h2>{name}</h2>
+      <p>Genre: {genre}</p>
+      <p>Origin: {origin}</p>
+      <p>Formed: {formed}</p>
+      <h3>Members</h3>
+      <ul>
+        {members.map((m) => (
+          <li key={m}>{m}</li>
+        ))}
+      </ul>
+      <h3>Albums</h3>
+      <ul>
+        {albums.map((a) => (
+          <li key={a}>{a}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function BandList() { 
+  // define an array of band objects so we can render multiple bands easily
+
   return (
     <div>
       {bands.map((band, index) => (
-        <div key={index} className="band">
-          <h2>{band.name}</h2>
-          <p>Genre: {band.genre}</p>
-          <p>Origin: {band.origin}</p>
-          <p>Formed: {band.formed}</p>
-          <h3>Members</h3>
-          <ul>
-            {band.members.map((m) => (
-              <li key={m}>{m}</li>
-            ))}
-          </ul>
-          <h3>Albums</h3>
-          <ul>
-            {band.albums.map((a) => (
-              <li key={a}>{a}</li>
-            ))}
-          </ul>
-        </div>
+        <Band key={index} {...band} />
       ))}
     </div>
   );
