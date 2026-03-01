@@ -64,12 +64,12 @@ function Band({ name, genre, origin, formed, members, albums }: BandProps) {
       <p>Genre: {genre}</p>
       <p>Origin: {origin}</p>
       <p>Formed: {formed}</p>
-      <h3>Members</h3>
-      <ul>
-        {members.map((m) => (
-          <li key={m}>{m}</li>
-        ))}
-      </ul>
+      <h3>Original members</h3>
+      <p>
+        {members.length === 1
+          ? members[0]
+          : members.slice(0, -1).join(', ') + ' and ' + members[members.length - 1]}
+      </p>
       <h3>Albums</h3>
       <ul>
         {albums.map((a) => (
